@@ -1,5 +1,22 @@
 # topshelfre take home assessment
 
+## Docker Instructions
+1. Download the Docker Desktop app.
+2. Create an account.
+3. Clone this repository to a directory of your choice.
+4. Open your terminal in this directory.
+5. Run ```bash docker build -t your-build-name .``` in your terminal.
+6. When that completes, run ```bash docker run -d --name your-container-name -p 80:80 your-build-name``` in your terminal.
+7. Now open your Docker Desktop app and check the Containers tab.
+8. Click the port number of the container with your container name.
+8. Click the port number of the container with your container name to open the site in your browser.
+9. You can now interact with the site through your browser.
+10. To start or stop the api run or stop the container in the Docker Desktop app.
+
+
+---
+
+
 Dear enthusiastic candidate. Thank you for agreeing to take our assessment.
 
 ## Instructions
