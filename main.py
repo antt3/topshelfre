@@ -1,7 +1,8 @@
 # Python (FastAPI)
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.testclient import TestClient
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 
@@ -12,23 +13,36 @@ class Book(BaseModel):
 	published_date: str
 	price: float
 
-books: list[Book] = []
+books: dict[int: Book] = {0: {"id": 0, "title": "Book 1", "author": "Author 1", "published_date": "2022-01-01", "price": 9.99}}
+
+@app.get("/")
+def get_homepage():
+    # Redirect to /docs (relative URL)
+    return RedirectResponse(url="/books", status_code=302)
 
 @app.get("/books")
 def get_books():
-	return { book.id : book for book in books }
+	return books
 
 @app.get("/books/{book_id}")
 def get_book(book_id: int):
-	return { book.id : book for book in books if book.id == book_id }
+	if book_id not in books:
+		raise HTTPException(status_code=404, detail="Book not found, create it first")
+	return { book_id: books[book_id] }
 
 @app.post("/books")
 def create_book(book: Book):
-	pass
+	if book.id in books:
+		raise HTTPException(status_code=400, detail="Book has already been created, try editing it or change the id")
+	books[book.id] = book
+	return { book.id : book }
 
 @app.put("/books/{book_id}")
 def update_book(book_id: int, book: Book):
-	pass
+	if book_id not in books:
+		raise HTTPException(status_code=404, detail="Book not found, create it first")
+	books[book_id] = book
+	return { book_id : book }
 
 @app.delete("/books/{book_id}")
 def delete_book(book_id: int):
