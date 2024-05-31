@@ -16,7 +16,7 @@
 
 
 ## API Instructions
-The books dictionary is initially filled with 3 books occupying the first 3 ids.
+The books dictionary is initially empty and will return an empty object.
 
 ### Create A Book
 ![alt text](image.png)
