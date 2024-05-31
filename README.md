@@ -10,7 +10,7 @@
 7. Now open your Docker Desktop app and check the Containers tab.
 8. Click the port number of the container with your container name.
 8. Click the port number of the container with your container name to open the site in your browser.
-9. You can now interact with the site through your browser.
+9. You can now interact with the site through your browser, Postman, etc.
 10. To start or stop the api run or stop the container in the Docker Desktop app.
 
 
