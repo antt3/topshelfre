@@ -12,15 +12,15 @@ class Book(BaseModel):
 	published_date: str
 	price: float
 
-books = []
+books: list[Book] = []
 
 @app.get("/books")
 def get_books():
-	pass
+	return { book.id : book for book in books }
 
 @app.get("/books/{book_id}")
 def get_book(book_id: int):
-	pass
+	return { book.id : book for book in books if book.id == book_id }
 
 @app.post("/books")
 def create_book(book: Book):
