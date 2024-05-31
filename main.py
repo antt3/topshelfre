@@ -20,33 +20,36 @@ def get_homepage():
     # Redirect to /docs (relative URL)
     return RedirectResponse(url="/books", status_code=302)
 
-@app.get("/books")
-def get_books():
+@app.get("/books", status_code=200)
+def getbooks():
 	return books
 
-@app.get("/books/{book_id}")
+@app.get("/books/{book_id}", status_code=200)
 def get_book(book_id: int):
 	if book_id not in books:
-		raise HTTPException(status_code=404, detail="Book not found, create it first")
+		raise HTTPException(status_code=404, detail="Book not found, create it first.")
 	return { book_id: books[book_id] }
 
-@app.post("/books")
+@app.post("/books", status_code=201)
 def create_book(book: Book):
 	if book.id in books:
-		raise HTTPException(status_code=400, detail="Book has already been created, try editing it or change the id")
+		raise HTTPException(status_code=400, detail="Book has already been created, try editing it or change the id.")
 	books[book.id] = book
 	return { book.id : book }
 
-@app.put("/books/{book_id}")
+@app.put("/books/{book_id}", status_code=200)
 def update_book(book_id: int, book: Book):
 	if book_id not in books:
-		raise HTTPException(status_code=404, detail="Book not found, create it first")
+		raise HTTPException(status_code=404, detail="Book not found, create it first.")
 	books[book_id] = book
 	return { book_id : book }
 
-@app.delete("/books/{book_id}")
+@app.delete("/books/{book_id}", status_code=200)
 def delete_book(book_id: int):
-	pass
+	if book_id not in books:
+		raise HTTPException(status_code=404, detail="Book not found, create it first.")
+	del books[book_id]
+	return books
 
 client = TestClient(app)
 
@@ -66,7 +69,7 @@ def test_delete_book():
 	response = client.delete("/books/1")
 	assert response.status_code == 200
 
-def test_get_books():
+def test_getbooks():
 	response = client.get("/books")
 	assert response.status_code == 200
 
